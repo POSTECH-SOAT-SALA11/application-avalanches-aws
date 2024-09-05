@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: avalanches_postgres_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: avalanches_database
+      POSTGRES_USER: avalanches_user
+      POSTGRES_PASSWORD: avalanches_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    command: ["postgres", "-c", "log_statement=all"]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: avalanches-container
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+  python-app:
+    build:
+      context: sistema-pagamentos-mock
+      dockerfile: Dockerfile
+    container_name: sistema-pagamentos-mock-container
+    restart: always
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_DB: avalanches_database
+      POSTGRES_USER: avalanches_user
+      POSTGRES_PASSWORD: avalanches_password
+
+volumes:
+  postgres_data:
