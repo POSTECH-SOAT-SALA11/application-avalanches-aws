@@ -6,8 +6,8 @@ on:
       - main  # Execute o workflow quando houver push na branch 'main'
 
 jobs:
-  environment: production
   build:
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
