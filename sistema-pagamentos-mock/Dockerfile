@@ -4,10 +4,19 @@ FROM python:3.9-slim
 # Defina o diretório de trabalho
 WORKDIR /app
 
+# Copie o código-fonte do projeto para o contêiner
+COPY . /app/
+
+RUN ls -ltr
+
+RUN cd app
+
 RUN ls -ltr
 
 # Copie o código-fonte do projeto para o contêiner
-#COPY . /app/
+COPY . requirements.txt
+
+RUN ls -ltr
 
 # Instale as dependências do Python
 #RUN pip install --no-cache-dir -r requirements.txt
