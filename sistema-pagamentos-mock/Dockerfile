@@ -9,10 +9,6 @@ COPY . /app/
 
 RUN ls -ltr
 
-RUN cd app
-
-RUN ls -ltr
-
 # Copie o código-fonte do projeto para o contêiner
 COPY . requirements.txt
 
