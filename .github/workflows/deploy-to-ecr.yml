@@ -3,7 +3,7 @@ name: Build and Push Docker Images to ECR
 on:
   push:
     branches:
-      - main  # Execute o workflow quando houver push na branch 'main'
+      - main # Execute o workflow quando houver push na branch 'main'
 
 jobs:
   build:
@@ -23,22 +23,22 @@ jobs:
 
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 779846815660.dkr.ecr.sa-east-1.amazonaws.com
 
       # Build and Push the first Docker image (from the root Dockerfil e)
       - name: Build the Docker image for root service
         run: |
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}-root:latest -f Dockerfile .
+          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/avalanches-app:latest -f Dockerfile .
 
       - name: Push the Docker image for root service to ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}-root:latest
+          docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/avalanches-app:latest
 
       # Build and Push the second Docker image (from sistema-pagamentos-mock/app)
       - name: Build the Docker image for sistema-pagamentos-mock
         run: |
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}-pagamentos:latest -f sistema-pagamentos-mock/app/Dockerfile sistema-pagamentos-mock/app
+          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/mock-sistemas-pagamento:latest -f sistema-pagamentos-mock/app/Dockerfile sistema-pagamentos-mock/app
 
       - name: Push the Docker image for sistema-pagamentos-mock to ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}-pagamentos:latest
+          docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/mock-sistemas-pagamento:latest
