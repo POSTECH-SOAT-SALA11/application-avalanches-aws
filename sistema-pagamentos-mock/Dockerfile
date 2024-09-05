@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app/
 
 # Instale as dependências do Python
-RUN pip install --no-cache-dir -r /requirements.txt
+RUN pip install --no-cache-dir -r ./requirements.txt
 
 # Defina a variável de ambiente para o Flask
 ENV FLASK_APP=/app/main.py
