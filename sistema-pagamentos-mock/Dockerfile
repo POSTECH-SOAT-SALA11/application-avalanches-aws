@@ -7,11 +7,8 @@ WORKDIR /app
 # Copie o código-fonte do projeto para o contêiner
 COPY . /app/
 
-# Copie o arquivo requirements.txt especificamente para o diretório /app
-COPY requirements.txt /app/
-
 # Instale as dependências do Python
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Defina a variável de ambiente para o Flask
 ENV FLASK_APP=/app/main.py
