@@ -37,7 +37,7 @@ jobs:
       # Build and Push the second Docker image (from sistema-pagamentos-mock/app)
       - name: Build the Docker image for sistema-pagamentos-mock
         run: |
-          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/mock-sistemas-pagamento:latest -f sistema-pagamentos-mock/app/Dockerfile sistema-pagamentos-mock/app
+          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/mock-sistemas-pagamento:latest -f sistema-pagamentos-mock/Dockerfile sistema-pagamentos-mock/app
 
       - name: Push the Docker image for sistema-pagamentos-mock to ECR
         run: |
