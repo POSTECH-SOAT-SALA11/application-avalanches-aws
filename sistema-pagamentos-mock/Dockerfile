@@ -7,8 +7,8 @@ WORKDIR /app
 # Copie o código-fonte do projeto para o contêiner
 COPY . /app/
 
-# Copie o requirements.txt
-COPY . requirements.txt
+# Copie o arquivo requirements.txt especificamente para o diretório /app
+COPY requirements.txt /app/
 
 # Instale as dependências do Python
 RUN pip install --no-cache-dir -r requirements.txt
