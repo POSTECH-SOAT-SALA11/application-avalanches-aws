@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sistema-pagamentos-mock
-          image: rm355416/sistema-pagamentos-mock:latest
+          image: 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
           ports:
             - containerPort: 5001
           env:
