@@ -48,7 +48,7 @@ jobs:
       # Nova etapa: Buscar secrets do AWS Secrets Manager e criar secret no Kubernetes
       - name: Retrieve Secrets from AWS Secrets Manager and create Kubernetes secret
         run: |
-          secret=$(aws secretsmanager get-secret-value --secret-id dbcredentialsv2-Rcdms4 --region sa-east-1 --query SecretString --output text)
+          secret=$(aws secretsmanager get-secret-value --secret-id dbcredentialsv2 --region sa-east-1 --query SecretString --output text)
 
           # Parse o JSON dos segredos
           host=$(echo $secret | jq -r '.host')
