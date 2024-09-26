@@ -4,6 +4,7 @@ import com.avalanches.enterprisebusinessrules.entities.StatusPagamento;
 import com.avalanches.frameworksanddrivers.api.dto.WebHookMockParams;
 import com.avalanches.frameworksanddrivers.api.dto.WebhookParams;
 import com.avalanches.frameworksanddrivers.api.interfaces.PagamentoApiInterface;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.controllers.PagamentoController;
 import com.avalanches.interfaceadapters.controllers.interfaces.PagamentoControllerInterface;
 import com.avalanches.interfaceadapters.presenters.dtos.WebHookDto;
@@ -11,7 +12,6 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class PagamentoApi implements PagamentoApiInterface {
 
     @Inject
-    private JdbcOperations jdbcOperations;
+    private BancoDeDadosContextoInterface bancoDeDadosContexto;
 
     @PostMapping("/webhook")
     @Override
@@ -30,7 +30,7 @@ public class PagamentoApi implements PagamentoApiInterface {
             System.out.println("Payload recebido: idPedido=" + webhook.idPedido() + ", status=" + webhook.status());
             WebHookMockParams webHookMockParams = new WebHookMockParams();
             PagamentoController pagamentoController = new PagamentoController();
-            pagamentoController.webhook(webhook, jdbcOperations, webHookMockParams);
+            pagamentoController.webhook(webhook, bancoDeDadosContexto, webHookMockParams);
             return ResponseEntity.ok(new WebHookDto(true, "Webhook recebido com sucesso"));
 
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class PagamentoApi implements PagamentoApiInterface {
     public ResponseEntity<StatusPagamento> consultaStatus(@PathVariable("idPedido") Integer idPedido) {
         PagamentoControllerInterface pagamentoController = new PagamentoController();
         WebHookMockParams webHookMockParams = new WebHookMockParams();
-        StatusPagamento response = pagamentoController.consultaStatus(idPedido, jdbcOperations, webHookMockParams);
+        StatusPagamento response = pagamentoController.consultaStatus(idPedido, bancoDeDadosContexto, webHookMockParams);
         return ResponseEntity.ok().body(response);
     }
 

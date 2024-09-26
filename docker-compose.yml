@@ -16,6 +16,18 @@ services:
       - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     command: ["postgres", "-c", "log_statement=all"]
 
+  redis:
+    image: redis:latest
+    container_name: avalanches_redis_db
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: redis_password
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--requirepass", "redis_password"]
+
   app:
     build:
       context: .
@@ -26,6 +38,7 @@ services:
       - "8081:8080"
     depends_on:
       - db
+      - redis
 
   python-app:
     build:
@@ -44,3 +57,4 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:

@@ -4,7 +4,13 @@ package com.avalanches.interfaceadapters.gateways;
 import com.avalanches.enterprisebusinessrules.entities.Pedido;
 import com.avalanches.enterprisebusinessrules.entities.PedidoProduto;
 import com.avalanches.enterprisebusinessrules.entities.StatusPedido;
+import com.avalanches.frameworksanddrivers.databases.JsonMappingCustomException;
+import com.avalanches.frameworksanddrivers.databases.JsonProcessingCustomException;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.gateways.interfaces.PedidoGatewayInterface;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -12,6 +18,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.webjars.NotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -19,10 +26,12 @@ import java.util.*;
 
 public class PedidoGateway implements PedidoGatewayInterface {
 
-    private JdbcOperations jdbcOperations;
+    private final RedisCommands<String, String> redisCommands;
+    private final JdbcOperations jdbcOperations;
 
-    public PedidoGateway(JdbcOperations jdbcOperations) {
-        this.jdbcOperations = jdbcOperations;
+    public PedidoGateway(BancoDeDadosContextoInterface bancoDeDadosContexto) {
+        this.jdbcOperations = bancoDeDadosContexto.getJdbcTemplate();
+        this.redisCommands = bancoDeDadosContexto.getRedisCommands();
     }
 
     @Override
@@ -48,7 +57,15 @@ public class PedidoGateway implements PedidoGatewayInterface {
                 keyHolder
         );
         pedido.setId((int) keyHolder.getKeys().get("id"));
-
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String pedidoSerializado = objectMapper.writeValueAsString(pedido);
+            redisCommands.set(pedido.getId().toString(), pedidoSerializado);
+        } catch (JsonMappingException ex) {
+            throw new JsonMappingCustomException(ex.getMessage());
+        } catch (JsonProcessingException ex) {
+            throw new JsonProcessingCustomException(ex.getMessage());
+        }
     }
 
     @Override
