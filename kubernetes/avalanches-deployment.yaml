@@ -24,3 +24,39 @@ spec:
             limits:
               cpu: "1000m"
               memory: "512Mi"
+          # Adição de variáveis de ambiente
+          env:
+            - name: DATABASE_DIALECT
+              value: "postgres"
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: port
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: password
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: db
+            - name: TYPEORM_CONNECTION
+              value: "postgres"
+            - name: TYPEORM_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentials
+                  key: typeorm

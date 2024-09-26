@@ -41,9 +41,9 @@ jobs:
         run: |
           docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
 
-      # - name: Configure Secrets Manager
-      #   run: |
-      #     kubectl apply -f kubernetes/secretproviderclass.yaml
+      - name: Configure Secrets Manager
+        run: |
+          kubectl apply -f kubernetes/secretproviderclass.yaml
       
       - name: Deploy Avalanches App to EKS
         run: |
