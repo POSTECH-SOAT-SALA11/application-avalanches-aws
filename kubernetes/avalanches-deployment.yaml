@@ -31,32 +31,32 @@ spec:
             - name: POSTGRES_HOST
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: host
             - name: POSTGRES_PORT
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: port
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: password
             - name: POSTGRES_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: db
             - name: TYPEORM_CONNECTION
               value: "postgres"
             - name: TYPEORM_URL
               valueFrom:
                 secretKeyRef:
-                  name: dbcredentials
+                  name: dbcredentialsv2
                   key: typeorm
