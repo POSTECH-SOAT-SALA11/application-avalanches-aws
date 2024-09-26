@@ -43,6 +43,7 @@ jobs:
 
       - name: Configure Secrets Manager
         run: |
+          aws eks update-kubeconfig --region sa-east-1 --name techchallenge
           kubectl apply -f kubernetes/secretproviderclass.yaml
       
       - name: Deploy Avalanches App to EKS
