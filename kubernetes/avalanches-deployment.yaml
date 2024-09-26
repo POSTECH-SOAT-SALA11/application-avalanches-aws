@@ -17,19 +17,6 @@ spec:
           image: 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-lanchonete-avalanches:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres-service:5432/avalanches_database
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_USER
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_PASSWORD
           resources:
             requests:
               cpu: "300m"
