@@ -16,18 +16,15 @@ public class RedisConfig {
 
     @Bean
     public RedisClient redisClient() {
-        // Obtém as propriedades do Redis do arquivo application.properties
         String host = ambiente.getProperty("spring.data.redis.host");
         String port = ambiente.getProperty("spring.data.redis.port");
         String password = ambiente.getProperty("spring.data.redis.password");
 
-        // Monta a URL de conexão com Redis
         String redisUrl = String.format("redis://%s:%s", host, port);
         if (password != null && !password.isEmpty()) {
             redisUrl = String.format("redis://:%s@%s:%s", password, host, port);
         }
 
-        // Retorna o RedisClient com a URL montada
         return RedisClient.create(redisUrl);
     }
 

@@ -6,6 +6,7 @@ import com.avalanches.interfaceadapters.presenters.interfaces.JsonPresenterInter
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class JsonPresenter implements JsonPresenterInterface {
 
@@ -13,6 +14,7 @@ public class JsonPresenter implements JsonPresenterInterface {
 
     public JsonPresenter() {
         this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Override
