@@ -17,28 +17,39 @@ spec:
           image: 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
           ports:
             - containerPort: 5001
+          # Adição de variáveis de ambiente
           env:
-            - name: POSTGRES_DB
+            - name: DATABASE_DIALECT
+              value: "postgres"
+            - name: POSTGRES_HOST
               valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_DB
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: port
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_USER
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_HOST
-              value: "postgres-service"
-          resources:
-            requests:
-              cpu: "300m"
-              memory: "256Mi"
-            limits:
-              cpu: "1000m"
-              memory: "512Mi"
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: password
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: db
+            - name: TYPEORM_CONNECTION
+              value: "postgres"
+            - name: TYPEORM_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dbcredentialsv2
+                  key: typeorm
