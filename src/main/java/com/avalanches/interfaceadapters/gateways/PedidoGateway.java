@@ -61,6 +61,12 @@ public class PedidoGateway implements PedidoGatewayInterface {
         return listarPostgres();
     }
 
+    public String buscarStatusPedido(Integer idPedido) {
+        String statusPedidoRedis = buscarStatusPedidoRedis(idPedido);
+        if (statusPedidoRedis != null) return statusPedidoRedis;
+        return buscarStatusPedidoPostgres(idPedido);
+    }
+
     private void cadastrarPostgres(Pedido pedido) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcOperations.update(
@@ -176,6 +182,23 @@ public class PedidoGateway implements PedidoGatewayInterface {
 
             return new ArrayList<>(pedidoMap.values());
         }
+    }
+
+    private String buscarStatusPedidoRedis(Integer idPedido) {
+        String redisPedido = redisCommands.get(getPedidoKey(idPedido));
+
+        if (redisPedido != null) {
+            Pedido pedido = jsonPresenter.deserialize(redisPedido, Pedido.class);
+            return pedido.getStatus().getValue();
+        }
+
+        return null;
+    }
+
+    private String buscarStatusPedidoPostgres(Integer idPedido) {
+        String sql = "SELECT status FROM pedido WHERE id = ?";
+        String status = jdbcOperations.queryForObject(sql, new Object[]{idPedido}, String.class);
+        return status;
     }
 
     private static @NotNull String getPedidoKey(Pedido pedido) {
