@@ -40,14 +40,42 @@ jobs:
       - name: Push the Docker image for sistema-pagamentos-mock to ECR
         run: |
           docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
-      
+
+      - name: Configure Kubernetes credentials (kubectl)
+        run: |
+          aws eks update-kubeconfig --region sa-east-1 --name techchallenge
+
+      # Nova etapa: Buscar secrets do AWS Secrets Manager e criar secret no Kubernetes
+      - name: Retrieve Secrets from AWS Secrets Manager and create Kubernetes secret
+        run: |
+          secret=$(aws secretsmanager get-secret-value --secret-id dbcredentialsv2 --region sa-east-1 --query SecretString --output text)
+
+          # Parse o JSON dos segredos
+          host=$(echo $secret | jq -r '.host')
+          port=$(echo $secret | jq -r '.port')
+          username=$(echo $secret | jq -r '.username')
+          password=$(echo $secret | jq -r '.password')
+          db=$(echo $secret | jq -r '.db')
+          typeorm=$(echo $secret | jq -r '.typeorm')
+
+          # Criar o secret no Kubernetes
+          kubectl delete secret dbcredentialsv2 || true  # Para evitar erro caso já exista
+          kubectl create secret generic dbcredentialsv2 \
+            --from-literal=host=$host \
+            --from-literal=port=$port \
+            --from-literal=username=$username \
+            --from-literal=password=$password \
+            --from-literal=db=$db \
+            --from-literal=typeorm=$typeorm
+
+      # Aplicar deployment e serviços
       - name: Deploy Avalanches App to EKS
         run: |
-          kubectl apply -f avalanches-deployment.yaml
-          kubectl apply -f avalanches-service.yaml
-          kubectl apply -f hpa.yaml
-      
+          kubectl apply -f kubernetes/avalanches-deployment.yaml
+          kubectl apply -f kubernetes/avalanches-service.yaml
+          kubectl apply -f kubernetes/hpa.yaml
+
       - name: Deploy Sistema Pagamento Mock to EKS
         run: |
-          kubectl apply -f sistema-pagamento-deployment.yaml
-          kubectl apply -f sistema-pagamento-service.yaml
+          kubectl apply -f kubernetes/sistema-pagamento-deployment.yaml
+          kubectl apply -f kubernetes/sistema-pagamento-service.yaml
