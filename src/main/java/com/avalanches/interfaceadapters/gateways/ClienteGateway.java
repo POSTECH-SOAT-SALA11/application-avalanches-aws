@@ -3,6 +3,7 @@ package com.avalanches.interfaceadapters.gateways;
 
 import com.avalanches.enterprisebusinessrules.entities.Cliente;
 import com.avalanches.frameworksanddrivers.databases.ClienteNotFoundException;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.gateways.interfaces.ClienteGatewayInterface;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -11,8 +12,8 @@ public class ClienteGateway implements ClienteGatewayInterface {
 
     private JdbcOperations jdbcOperations;
 
-    public ClienteGateway(JdbcOperations jdbcOperations) {
-        this.jdbcOperations = jdbcOperations;
+    public ClienteGateway(BancoDeDadosContextoInterface bancoDeDadosContexto) {
+        this.jdbcOperations = bancoDeDadosContexto.getJdbcTemplate();
     }
 
     @Override

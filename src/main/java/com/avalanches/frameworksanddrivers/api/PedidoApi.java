@@ -10,10 +10,10 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.avalanches.frameworksanddrivers.api.dto.PedidoParams;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 
 import java.util.List;
 
@@ -23,14 +23,14 @@ import java.util.List;
 public class PedidoApi implements PedidoApiInterface {
 
     @Inject
-    private JdbcOperations jdbcOperations;
+    private BancoDeDadosContextoInterface bancoDeDadosContexto;
 
     @PostMapping
     @Override
     public ResponseEntity<Integer> cadastrar(@Valid @RequestBody PedidoParams pedido) {
         PedidoControllerInterface pedidoController = new PedidoController();
         WebHookMockParams webHookMockParams = new WebHookMockParams();
-        Integer numeroPedido = pedidoController.cadastrar(Convert.pedidoParamsToPedido(pedido), jdbcOperations, webHookMockParams);
+        Integer numeroPedido = pedidoController.cadastrar(Convert.pedidoParamsToPedido(pedido), bancoDeDadosContexto, webHookMockParams);
         return ResponseEntity.status(HttpStatus.CREATED).body(numeroPedido);
     }
 
@@ -38,7 +38,7 @@ public class PedidoApi implements PedidoApiInterface {
     @Override
     public ResponseEntity<Void> atualizaStatus(@PathVariable("idPedido") Integer idPedido, @RequestBody StatusPedido statusPedido) {
         PedidoControllerInterface pedidoController = new PedidoController();
-        pedidoController.atualizaStatus(idPedido, statusPedido, jdbcOperations);
+        pedidoController.atualizaStatus(idPedido, statusPedido, bancoDeDadosContexto);
         return ResponseEntity.ok().build();
     }
 
@@ -46,7 +46,7 @@ public class PedidoApi implements PedidoApiInterface {
     @Override
     public ResponseEntity<List<PedidoDto>> listar() {
         PedidoControllerInterface pedidoController = new PedidoController();
-        List<PedidoDto> response = pedidoController.listar(jdbcOperations);
+        List<PedidoDto> response = pedidoController.listar(bancoDeDadosContexto);
         return ResponseEntity.ok().body(response);
     }
 

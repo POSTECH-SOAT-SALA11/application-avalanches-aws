@@ -73,6 +73,10 @@ public class Pedido {
         this.id = id;
     }
 
+    public void setStatus(StatusPedido statusPedido) {
+        this.status = statusPedido;
+    }
+
     public StatusPedido getStatus() {
         return status;
     }

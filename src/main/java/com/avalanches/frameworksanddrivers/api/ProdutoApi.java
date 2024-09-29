@@ -7,6 +7,7 @@ import com.avalanches.frameworksanddrivers.api.interfaces.ProdutoApiInterface;
 import com.avalanches.interfaceadapters.controllers.ProdutoController;
 import com.avalanches.interfaceadapters.controllers.interfaces.ProdutoControllerInterface;
 import com.avalanches.interfaceadapters.presenters.dtos.ProdutoDto;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,13 @@ import java.util.List;
 public class ProdutoApi implements ProdutoApiInterface {
 
     @Inject
-    private JdbcOperations jdbcOperations;
+    private BancoDeDadosContextoInterface bancoDeDadosContexto;
 
     @PostMapping
     @Override
     public ResponseEntity<Void> cadastrar(@Valid @RequestBody ProdutoParams produto) {
         ProdutoControllerInterface produtoController = new ProdutoController();
-        produtoController.cadastrarProduto(Convert.produtoParamsToProduto(produto), jdbcOperations);
+        produtoController.cadastrarProduto(Convert.produtoParamsToProduto(produto), bancoDeDadosContexto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -39,7 +40,7 @@ public class ProdutoApi implements ProdutoApiInterface {
         ProdutoControllerInterface produtoController = new ProdutoController();
         Produto produtoEntity = Convert.produtoParamsToProduto(produto);
         produtoEntity.setId(id);
-        produtoController.atualizarProduto(produtoEntity, jdbcOperations);
+        produtoController.atualizarProduto(produtoEntity, bancoDeDadosContexto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -47,7 +48,7 @@ public class ProdutoApi implements ProdutoApiInterface {
     @Override
     public ResponseEntity<Void> excluir(@PathVariable int id) {
         ProdutoControllerInterface produtoController = new ProdutoController();
-        produtoController.excluirProduto(id, jdbcOperations);
+        produtoController.excluirProduto(id, bancoDeDadosContexto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -55,7 +56,7 @@ public class ProdutoApi implements ProdutoApiInterface {
     @Override
     public ResponseEntity<List<ProdutoDto>> consultarPorCategoria(@PathVariable("categoriaProduto") CategoriaProduto categoriaProduto){
         ProdutoControllerInterface produtoController = new ProdutoController();
-        List<ProdutoDto> response = produtoController.consultarProdutos(categoriaProduto, jdbcOperations);
+        List<ProdutoDto> response = produtoController.consultarProdutos(categoriaProduto, bancoDeDadosContexto);
         return ResponseEntity.ok().body(response);
     }
 

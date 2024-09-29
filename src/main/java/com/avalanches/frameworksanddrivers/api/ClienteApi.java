@@ -2,6 +2,7 @@ package com.avalanches.frameworksanddrivers.api;
 
 import com.avalanches.frameworksanddrivers.api.dto.ClienteParams;
 import com.avalanches.frameworksanddrivers.api.interfaces.ClienteApiInterface;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.controllers.ClienteController;
 import com.avalanches.interfaceadapters.controllers.interfaces.ClienteControllerInterface;
 import com.avalanches.interfaceadapters.presenters.dtos.ClienteDto;
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class ClienteApi implements ClienteApiInterface {
 
     @Inject
-    private JdbcOperations jdbcOperations;
+    private BancoDeDadosContextoInterface bancoDeDadosContexto;
 
     @PostMapping
     @Override
     public ResponseEntity<Void> cadastrar(@Valid  @RequestBody ClienteParams cliente) {
         ClienteControllerInterface clienteController = new ClienteController();
-        clienteController.cadastrar(Convert.clienteParamsToCliente(cliente), jdbcOperations);
+        clienteController.cadastrar(Convert.clienteParamsToCliente(cliente), bancoDeDadosContexto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -33,7 +34,7 @@ public class ClienteApi implements ClienteApiInterface {
     @Override
     public ResponseEntity<ClienteDto> consultar(@PathVariable("cpf") String cpf) {
         ClienteControllerInterface clienteController = new ClienteController();
-        ClienteDto response = clienteController.consultar(cpf, jdbcOperations);
+        ClienteDto response = clienteController.consultar(cpf, bancoDeDadosContexto);
 
         return ResponseEntity.ok().body(response);
     }
@@ -42,7 +43,7 @@ public class ClienteApi implements ClienteApiInterface {
     @Override
     public ResponseEntity<Void> excluir(@PathVariable("cpf") String cpf) {
         ClienteControllerInterface clienteController = new ClienteController();
-        clienteController.excluir(cpf, jdbcOperations);
+        clienteController.excluir(cpf, bancoDeDadosContexto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

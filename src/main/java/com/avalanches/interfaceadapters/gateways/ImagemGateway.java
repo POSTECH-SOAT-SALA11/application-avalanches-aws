@@ -2,6 +2,7 @@ package com.avalanches.interfaceadapters.gateways;
 
 
 import com.avalanches.enterprisebusinessrules.entities.Imagem;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.gateways.interfaces.ImagemGatewayInterface;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -25,8 +26,9 @@ public class ImagemGateway implements ImagemGatewayInterface {
 
     private JdbcOperations jdbcOperations;
 
-    public ImagemGateway(JdbcOperations jdbcOperations) {
-        this.jdbcOperations = jdbcOperations;
+    public ImagemGateway(BancoDeDadosContextoInterface bancoDeDadosContexto) {
+
+        this.jdbcOperations = bancoDeDadosContexto.getJdbcTemplate();
     }
 
     @Override

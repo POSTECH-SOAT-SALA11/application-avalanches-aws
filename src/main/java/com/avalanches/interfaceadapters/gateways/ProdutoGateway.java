@@ -4,6 +4,8 @@ package com.avalanches.interfaceadapters.gateways;
 import com.avalanches.enterprisebusinessrules.entities.CategoriaProduto;
 import com.avalanches.enterprisebusinessrules.entities.Imagem;
 import com.avalanches.enterprisebusinessrules.entities.Produto;
+import com.avalanches.frameworksanddrivers.databases.config.BancoDeDadosContexto;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.gateways.interfaces.ProdutoGatewayInterface;
 import com.avalanches.interfaceadapters.gateways.mapper.ImagemRowMapper;
 import com.avalanches.interfaceadapters.gateways.mapper.ProdutoRowMapper;
@@ -24,8 +26,8 @@ public class ProdutoGateway implements ProdutoGatewayInterface {
 
     private JdbcOperations jdbcOperations;
 
-    public ProdutoGateway(JdbcOperations jdbcOperations) {
-        this.jdbcOperations = jdbcOperations;
+    public ProdutoGateway(BancoDeDadosContextoInterface bancoDeDadosContexto) {
+        this.jdbcOperations = bancoDeDadosContexto.getJdbcTemplate();
     }
 
     @Override

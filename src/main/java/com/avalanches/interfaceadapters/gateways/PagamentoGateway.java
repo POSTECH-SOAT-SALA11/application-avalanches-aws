@@ -3,6 +3,7 @@ package com.avalanches.interfaceadapters.gateways;
 import com.avalanches.enterprisebusinessrules.entities.Pagamento;
 import com.avalanches.enterprisebusinessrules.entities.StatusPagamento;
 import com.avalanches.frameworksanddrivers.api.dto.WebHookMockParams;
+import com.avalanches.frameworksanddrivers.databases.interfaces.BancoDeDadosContextoInterface;
 import com.avalanches.interfaceadapters.gateways.interfaces.PagamentoGatewayInterface;
 import jakarta.inject.Inject;
 import okhttp3.MediaType;
@@ -19,9 +20,9 @@ public class PagamentoGateway implements PagamentoGatewayInterface {
     private final JdbcOperations jdbcOperations;
     private final WebHookMockParams webHookMockParams;
 
-    public PagamentoGateway(JdbcOperations jdbcOperations,
+    public PagamentoGateway(BancoDeDadosContextoInterface bancoDeDadosContexto,
                             WebHookMockParams webHookMockParams) {
-        this.jdbcOperations = jdbcOperations;
+        this.jdbcOperations = bancoDeDadosContexto.getJdbcTemplate();
         this.webHookMockParams = webHookMockParams;
     }
 
