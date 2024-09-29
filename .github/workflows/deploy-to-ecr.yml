@@ -57,6 +57,9 @@ jobs:
           password=$(echo $secret | jq -r '.password')
           db=$(echo $secret | jq -r '.db')
           typeorm=$(echo $secret | jq -r '.typeorm')
+          redis_host=$(echo $secret | jq -r '.redis_host')
+          redis_port=$(echo $secret | jq -r '.redis_port')
+          redis_password=$(echo $secret | jq -r '.redis_password')
 
           # Criar o secret no Kubernetes
           kubectl delete secret dbcredentialsv2 || true  # Para evitar erro caso já exista
@@ -66,7 +69,10 @@ jobs:
             --from-literal=username=$username \
             --from-literal=password=$password \
             --from-literal=db=$db \
-            --from-literal=typeorm=$typeorm
+            --from-literal=typeorm=$typeorm \
+            --from-literal=redis_host=$redis_host \
+            --from-literal=redis_port=$redis_port \
+            --from-literal=redis_password=$redis_password            
 
       # Aplicar deployment e serviços
       - name: Deploy Avalanches App to EKS
