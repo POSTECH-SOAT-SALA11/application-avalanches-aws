@@ -7,7 +7,7 @@ class PaymentRepository:
     def __init__(self):
         # Conexão com o PostgreSQL
         self.conn = psycopg2.connect(
-            dbname=os.environ['POSTGRES_DB'],
+            dbname=os.environ['POSTGRES_DATABASE'],
             user=os.environ['POSTGRES_USER'],
             password=os.environ['POSTGRES_PASSWORD'],
             host=os.environ['POSTGRES_HOST']
