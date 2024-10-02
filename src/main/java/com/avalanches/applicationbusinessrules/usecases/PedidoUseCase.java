@@ -11,6 +11,7 @@ import com.avalanches.interfaceadapters.gateways.interfaces.PedidoGatewayInterfa
 import com.avalanches.interfaceadapters.gateways.interfaces.ProdutoGatewayInterface;
 import org.webjars.NotFoundException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PedidoUseCase implements PedidoUseCaseInterface {
@@ -29,6 +30,8 @@ public class PedidoUseCase implements PedidoUseCaseInterface {
             if(!produtoGateway.verificaProdutoExiste(p.getIdProduto())) {
                 throw new NotFoundException("O produto " + p.getIdProduto() + " não foi encontrado.");
             }
+
+        pedido.setValor(this.calcularValorTotal(pedido, produtoGateway));
 
         pedidoGateway.cadastrar(pedido);
         PagamentoUseCase pagamentoUseCase = new PagamentoUseCase();
@@ -56,6 +59,18 @@ public class PedidoUseCase implements PedidoUseCaseInterface {
         }
 
         pedidoGateway.atualizaStatus(idPedido, statusPedido);
+    }
+
+    private BigDecimal calcularValorTotal(Pedido pedido, ProdutoGatewayInterface produtoGateway) {
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        for(PedidoProduto p: pedido.getListaProduto()){
+            if(!produtoGateway.verificaProdutoExiste(p.getIdProduto())) {
+                throw new NotFoundException("O produto " + p.getIdProduto() + " não foi encontrado.");
+            }
+            BigDecimal valorProduto = p.getValorUnitario().multiply(BigDecimal.valueOf(p.getQuantidade()));
+            valorTotal = valorTotal.add(valorProduto);
+        }
+        return valorTotal;
     }
 
     private boolean VerificaStatusValido(Integer idPedido, StatusPedido statusPedido, PedidoGatewayInterface pedidoGateway) {
