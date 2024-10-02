@@ -30,6 +30,16 @@ Bem-vindo ao Avalanches, onde a alegria de comer bem encontra o espírito aventu
 - Docker
 - Kubernetes (Minikube)
 - Banco de Dados PostgreSQL
+- Amazon Elastic Container Registry(ECR)
+- Amazon Elastic Kubernetes Service (EKS)
+
+## Arquitetura AWS(Cloud)
+[Ilustração na Wiki](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Arquitetura-AWS)
+
+Link do vídeo
+
+## Esteiras CI/CD
+[Ilustração na Wiki](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Esteiras-CI-CD)
 
 ## Estrutura do Projeto
 
