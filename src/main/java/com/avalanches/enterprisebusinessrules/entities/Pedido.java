@@ -77,6 +77,10 @@ public class Pedido {
         this.status = statusPedido;
     }
 
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
     public StatusPedido getStatus() {
         return status;
     }
