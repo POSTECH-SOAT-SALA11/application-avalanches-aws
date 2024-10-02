@@ -83,17 +83,6 @@ Para executar o projeto em Kubernetes, siga estas etapas:
 6. Divirta-se explorando a API via Swagger! 
 Exemplos de requisição: https://github.com/POSTECH-SOAT-SALA11/Avalanches/wiki/Exemplos-de-Requisi%C3%A7%C3%A3o
 
-## Execução do Projeto Localmente
-
-Para executar o projeto localmente, siga estas etapas:
-
-1. Clone o repositório.
-2. Execute o comando `docker-compose up --build` para que o build da aplicação aconteça e sejam geradas as imagens e contâineres da aplicação + banco de dados.
-3. Acesse o Swagger da aplicação através da URL `http://localhost:8080/swagger-ui/index.html#`.
-4. Exemplos de requisição: https://github.com/POSTECH-SOAT-SALA11/Avalanches/wiki/Exemplos-de-Requisi%C3%A7%C3%A3o
-5. Divirta-se!
-
-
 ## Autores
 
 - [Hennan Cesar Alves Gadelha de Freitas](https://github.com/HennanGadelha)
