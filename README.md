@@ -42,6 +42,12 @@ Link do vídeo
 ## Esteiras CI/CD
 [Ilustração na Wiki](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Esteiras-CI-CD)
 
+## Banco de dados
+PostgreSQL e Redis são usados juntos para equilibrar integridade e performance:
+
+- PostgreSQL: Garante a consistência e segurança dos dados, ideal para transações complexas e relações entre tabelas, como pedidos, clientes e estoque.
+- Redis: Serve como cache de alta performance, armazenando dados temporários e reduzindo a carga no PostgreSQL. Ele oferece respostas rápidas para consultas frequentes, como o status dos pedidos.
+
 ## Estrutura do Projeto
 
 O projeto segue os princípios de Domain-Driven Design (DDD) e clean architecture, com as seguintes camadas:
