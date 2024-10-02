@@ -37,7 +37,7 @@ Bem-vindo ao Avalanches, onde a alegria de comer bem encontra o espírito aventu
 ## Arquitetura AWS(Cloud)
 [Ilustração na Wiki](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Arquitetura-AWS)
 
-[Link do vídeo](https://www.youtube.com/watch?v=yPuZuUrvZlk)
+[Link do vídeo](https://www.youtube.com/watch?v=uwQn1h_XoYY)
 
 ## Esteiras CI/CD
 [Ilustração na Wiki](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Esteiras-CI-CD)
