@@ -81,7 +81,7 @@ Para executar o projeto em Kubernetes, siga estas etapas:
    ```
 
 6. Divirta-se explorando a API via Swagger! 
-Exemplos de requisição: https://github.com/POSTECH-SOAT-SALA11/Avalanches/wiki/Exemplos-de-Requisi%C3%A7%C3%A3o
+[Exemplos de requisição](https://github.com/POSTECH-SOAT-SALA11/application-avalanches-aws/wiki/Exemplos-de-Requisi%C3%A7%C3%A3o)
 
 ## Autores
 
