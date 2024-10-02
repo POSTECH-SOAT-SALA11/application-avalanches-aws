@@ -30,6 +30,7 @@ Bem-vindo ao Avalanches, onde a alegria de comer bem encontra o espírito aventu
 - Docker
 - Kubernetes (Minikube)
 - Banco de Dados PostgreSQL
+- Redis
 - Amazon Elastic Container Registry(ECR)
 - Amazon Elastic Kubernetes Service (EKS)
 
