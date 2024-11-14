@@ -23,23 +23,23 @@ jobs:
 
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 779846815660.dkr.ecr.sa-east-1.amazonaws.com
+          aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 307946636040.dkr.ecr.sa-east-1.amazonaws.com
 
       - name: Build the Docker image for root service
         run: |
-          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-lanchonete-avalanches:latest -f Dockerfile .
+          docker build -t 307946636040.dkr.ecr.sa-east-1.amazonaws.com/sistema-lanchonete-avalanches:latest -f Dockerfile .
 
       - name: Push the Docker image for root service to ECR
         run: |
-          docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-lanchonete-avalanches:latest
+          docker push 307946636040.dkr.ecr.sa-east-1.amazonaws.com/sistema-lanchonete-avalanches:latest
 
       - name: Build the Docker image for sistema-pagamentos-mock
         run: |
-          docker build -t 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest -f sistema-pagamentos-mock/Dockerfile sistema-pagamentos-mock
+          docker build -t 307946636040.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest -f sistema-pagamentos-mock/Dockerfile sistema-pagamentos-mock
 
       - name: Push the Docker image for sistema-pagamentos-mock to ECR
         run: |
-          docker push 779846815660.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
+          docker push 307946636040.dkr.ecr.sa-east-1.amazonaws.com/sistema-pagamento:latest
 
       - name: Configure Kubernetes credentials (kubectl)
         run: |
